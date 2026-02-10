@@ -1,8 +1,15 @@
 import React from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, CreditCard, PieChart, Zap } from 'lucide-react';
+import { Outlet, NavLink, useNavigate } from 'react-router-dom';
+import { LayoutDashboard, Users, CreditCard, PieChart, Zap, LogOut } from 'lucide-react';
 
 const AdminLayout = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.removeItem('admin_authenticated');
+        navigate('/admin/login');
+    };
+
     return (
         <div className="admin-layout">
             <aside className="sidebar">
@@ -37,11 +44,17 @@ const AdminLayout = () => {
                         <span>Planes</span>
                     </NavLink>
                 </nav>
-                <div className="user-profile">
-                    <div className="avatar">O</div>
-                    <div className="info">
-                        <p>Owner</p>
-                        <small>Capital Fit</small>
+                <div className="sidebar-footer">
+                    <button onClick={handleLogout} className="logout-btn">
+                        <LogOut size={18} />
+                        <span>Cerrar Sesión</span>
+                    </button>
+                    <div className="user-profile">
+                        <div className="avatar">O</div>
+                        <div className="info">
+                            <p>Owner</p>
+                            <small>Capital Fit</small>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -129,8 +142,32 @@ const AdminLayout = () => {
                     width: 100%;
                 }
                 .mobile-header { display: none; }
-                .user-profile {
+                .sidebar-footer {
                     margin-top: auto;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+                .logout-btn {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    padding: 0.85rem 1.25rem;
+                    width: 100%;
+                    background: transparent;
+                    border: none;
+                    color: #ef4444;
+                    cursor: pointer;
+                    font-weight: 600;
+                    font-size: 0.95rem;
+                    border-radius: var(--radius-md);
+                    transition: all 0.2s;
+                }
+                .logout-btn:hover {
+                    background: rgba(239, 68, 68, 0.1);
+                    transform: translateX(4px);
+                }
+                .user-profile {
                     display: flex;
                     align-items: center;
                     gap: 1rem;
