@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Client Membership Access | Capital Fit</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Oswald:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#f97316", // Vibrant Orange from logo
+                        "background-light": "#f3f4f6",
+                        "background-dark": "#0a0a0a",
+                    },
+                    fontFamily: {
+                        display: ["Oswald", "sans-serif"],
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .display-font {
+            font-family: 'Oswald', sans-serif;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center p-4">
+<button class="fixed top-6 right-6 p-2 rounded-full bg-white dark:bg-zinc-800 shadow-lg border border-slate-200 dark:border-zinc-700 hover:scale-110 transition-transform" onclick="document.documentElement.classList.toggle('dark')">
+<span class="material-symbols-outlined block dark:hidden text-zinc-600">dark_mode</span>
+<span class="material-symbols-outlined hidden dark:block text-yellow-400">light_mode</span>
+</button>
+<div class="w-full max-w-md space-y-8">
+<div class="text-center space-y-6">
+<div class="flex flex-col items-center justify-center space-y-2">
+<div class="flex flex-col items-center">
+<h1 class="text-5xl md:text-6xl font-extrabold display-font text-slate-900 dark:text-white uppercase leading-none">
+                        CAPITAL FIT
+                    </h1>
+<p class="text-sm tracking-[0.4em] font-medium text-slate-500 dark:text-zinc-400 uppercase">
+                        WELLNESS STUDIO
+                    </p>
+</div>
+<div class="relative mt-4 group">
+<div class="absolute inset-0 bg-primary blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+<img alt="Capital Fit Logo Icon" class="h-12 w-auto relative z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRPevmlz0Sekz2XmSKOByrBaSZusRL0pZCnGw_jgxt6XSzHB8YGpGbJBnB0hgMWz5OP0nTx4SmzBQSK7OM0hvvQKcrfT4AU4HxbYtPd9V30Go5KOc0YmeQ60eUJbIgdm2y1mBMp-5-MlYxCUXENsafAyW-OtT0Btzvo7nkz6rIJFSC97G8rhWsBjPOcPd7HxFZLVdCS5-ibP0thzV7bMYMQPLjtru8vHbN9KUuUzD-xS0GpszLaNrACLSJiPIhtb-tGt2x5mpo9cOJ"/>
+</div>
+</div>
+<div class="space-y-2">
+<h2 class="text-2xl font-bold text-slate-800 dark:text-zinc-100">Membership Access</h2>
+<p class="text-slate-500 dark:text-zinc-400 text-sm">Enter your details below to check your current status. No password required.</p>
+</div>
+</div>
+<div class="bg-white dark:bg-zinc-900/50 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-slate-200 dark:border-zinc-800">
+<form action="#" class="space-y-6" method="POST">
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-500 ml-1" for="phone">
+                        Phone Number
+                    </label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 dark:text-zinc-600">
+<span class="material-symbols-outlined text-xl">phone</span>
+</span>
+<input class="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all dark:text-white dark:placeholder-zinc-600" id="phone" name="phone" placeholder="(555) 000-0000" required="" type="tel"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-500 ml-1" for="dob">
+                        Date of Birth
+                    </label>
+<div class="relative">
+<span class="absolute inset-y-0 left-0 flex items-center pl-4 text-slate-400 dark:text-zinc-600">
+<span class="material-symbols-outlined text-xl">calendar_today</span>
+</span>
+<input class="w-full pl-12 pr-4 py-4 bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-700 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all dark:text-white dark:placeholder-zinc-600" id="dob" name="dob" required="" type="date"/>
+</div>
+</div>
+<button class="w-full bg-primary hover:bg-orange-600 text-white font-bold py-4 rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/30 transform transition-all active:scale-95 flex items-center justify-center gap-2 group" type="submit">
+<span>VIEW MY STATUS</span>
+<span class="material-symbols-outlined text-xl transition-transform group-hover:translate-x-1">arrow_forward</span>
+</button>
+</form>
+</div>
+<div class="text-center space-y-4">
+<p class="text-xs text-slate-400 dark:text-zinc-500 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm">lock</span>
+                Securely encrypted connection
+            </p>
+<div class="pt-4 border-t border-slate-200 dark:border-zinc-800">
+<p class="text-sm text-slate-500 dark:text-zinc-500">
+                    Need help? 
+                    <a class="text-primary hover:underline font-medium" href="#">Contact Support</a> 
+                    or visit the front desk.
+                </p>
+</div>
+</div>
+</div>
+<div class="mt-12 text-slate-400 dark:text-zinc-600 text-[10px] uppercase tracking-widest text-center opacity-50">
+        © 2024 GymSaaS Platform. All rights reserved.
+    </div>
+
+</body></html>

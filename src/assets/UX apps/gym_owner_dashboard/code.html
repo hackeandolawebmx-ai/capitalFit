@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gym Owner Dashboard | Capital Fit</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#f59e0b", // Orange accent from logo
+                        "background-light": "#f9fafb",
+                        "background-dark": "#0a0a0a",
+                        "surface-dark": "#171717",
+                        "border-dark": "#262626",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.5rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<nav class="border-b border-slate-200 dark:border-border-dark bg-white dark:bg-surface-dark px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+<div class="flex items-center space-x-8">
+<div class="flex flex-col">
+<span class="text-xl font-extrabold tracking-tighter uppercase leading-none italic">Capital Fit</span>
+<span class="text-[8px] tracking-[0.3em] uppercase opacity-60 font-bold">Wellness Studio</span>
+</div>
+<div class="hidden md:flex space-x-6 text-sm font-medium">
+<a class="text-primary border-b-2 border-primary pb-1" href="#">Dashboard</a>
+<a class="opacity-60 hover:opacity-100 transition-opacity" href="#">Members</a>
+<a class="opacity-60 hover:opacity-100 transition-opacity" href="#">Staff</a>
+<a class="opacity-60 hover:opacity-100 transition-opacity" href="#">Financials</a>
+</div>
+</div>
+<div class="flex items-center space-x-4">
+<button class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors">
+<span class="material-icons text-xl">notifications</span>
+</button>
+<div class="h-8 w-8 rounded-full bg-primary flex items-center justify-center font-bold text-black text-xs">
+                JD
+            </div>
+</div>
+</nav>
+<main class="p-6 max-w-[1600px] mx-auto">
+<div class="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-6">
+<div>
+<h1 class="text-3xl font-bold">Business Overview</h1>
+<p class="text-slate-500 dark:text-zinc-400 mt-1">Manage your studio performance for <span class="font-semibold text-slate-900 dark:text-white">October 2023</span></p>
+</div>
+<div class="flex flex-wrap gap-4 items-center">
+<div class="bg-white dark:bg-surface-dark border border-slate-200 dark:border-border-dark px-6 py-3 rounded-xl flex items-center space-x-4 shadow-sm">
+<div class="flex flex-col">
+<span class="text-xs uppercase font-bold tracking-wider opacity-50">Estimated Profit</span>
+<span class="text-2xl font-black text-green-500">$12,450.00</span>
+</div>
+<div class="h-10 w-[2px] bg-slate-200 dark:bg-border-dark"></div>
+<div class="flex flex-col items-center">
+<span class="text-xs uppercase font-bold tracking-wider opacity-50 mb-1">Status</span>
+<div class="flex space-x-1">
+<div class="h-3 w-3 rounded-full bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div>
+<div class="h-3 w-3 rounded-full bg-slate-300 dark:bg-zinc-700"></div>
+<div class="h-3 w-3 rounded-full bg-slate-300 dark:bg-zinc-700"></div>
+</div>
+</div>
+</div>
+<div class="flex space-x-3">
+<button class="bg-primary hover:opacity-90 transition-all text-black font-bold py-3 px-6 rounded-xl flex items-center shadow-lg shadow-primary/20">
+<span class="material-icons mr-2 text-sm">payments</span>
+                        Register Payment
+                    </button>
+<button class="bg-white dark:bg-zinc-800 hover:bg-slate-100 dark:hover:bg-zinc-700 border border-slate-200 dark:border-border-dark text-slate-900 dark:text-white font-bold py-3 px-6 rounded-xl flex items-center transition-all">
+<span class="material-icons mr-2 text-sm">autorenew</span>
+                        Renew
+                    </button>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+<div class="bg-white dark:bg-surface-dark p-6 rounded-2xl border border-slate-200 dark:border-border-dark">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-blue-500/10 rounded-xl">
+<span class="material-icons text-blue-500">group</span>
+</div>
+<span class="text-xs font-bold text-green-500 bg-green-500/10 px-2 py-1 rounded">+12%</span>
+</div>
+<h3 class="text-slate-500 dark:text-zinc-400 font-medium mb-1">Active Members</h3>
+<p class="text-3xl font-black">482</p>
+<div class="mt-4 w-full bg-slate-100 dark:bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-blue-500 h-full w-[85%]"></div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-2xl border border-slate-200 dark:border-border-dark">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-yellow-500/10 rounded-xl">
+<span class="material-icons text-yellow-500">warning</span>
+</div>
+<span class="text-xs font-bold text-yellow-500 bg-yellow-500/10 px-2 py-1 rounded">Caution</span>
+</div>
+<h3 class="text-slate-500 dark:text-zinc-400 font-medium mb-1">At Risk Members</h3>
+<p class="text-3xl font-black">24</p>
+<div class="mt-4 w-full bg-slate-100 dark:bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-yellow-500 h-full w-[15%]"></div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-2xl border border-slate-200 dark:border-border-dark">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-red-500/10 rounded-xl">
+<span class="material-icons text-red-500">error_outline</span>
+</div>
+<span class="text-xs font-bold text-red-500 bg-red-500/10 px-2 py-1 rounded">Urgent</span>
+</div>
+<h3 class="text-slate-500 dark:text-zinc-400 font-medium mb-1">Expired (30d)</h3>
+<p class="text-3xl font-black">12</p>
+<div class="mt-4 w-full bg-slate-100 dark:bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-red-500 h-full w-[5%]"></div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-2xl border border-slate-200 dark:border-border-dark">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 bg-primary/10 rounded-xl">
+<span class="material-icons text-primary">account_balance_wallet</span>
+</div>
+<span class="text-xs font-bold text-slate-500 dark:text-zinc-400 bg-slate-100 dark:bg-zinc-800 px-2 py-1 rounded">Pipeline</span>
+</div>
+<h3 class="text-slate-500 dark:text-zinc-400 font-medium mb-1">Revenue at Risk</h3>
+<p class="text-3xl font-black">$2,140</p>
+<div class="mt-4 w-full bg-slate-100 dark:bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[35%]"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 bg-white dark:bg-surface-dark rounded-2xl border border-slate-200 dark:border-border-dark overflow-hidden">
+<div class="p-6 border-b border-slate-200 dark:border-border-dark flex justify-between items-center">
+<h2 class="text-xl font-bold flex items-center">
+<span class="material-icons mr-2 text-primary">history</span>
+                        Members to Follow Up
+                    </h2>
+<button class="text-primary text-sm font-semibold hover:underline">View All</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="text-xs uppercase tracking-wider text-slate-500 dark:text-zinc-500 border-b border-slate-100 dark:border-zinc-800/50">
+<th class="px-6 py-4 font-bold">Member</th>
+<th class="px-6 py-4 font-bold">Status</th>
+<th class="px-6 py-4 font-bold">Last Visit</th>
+<th class="px-6 py-4 font-bold">Due Amount</th>
+<th class="px-6 py-4 font-bold text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-zinc-800/50">
+<tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="h-10 w-10 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center font-bold text-zinc-400 text-xs">MA</div>
+<div>
+<p class="font-bold text-sm">Marcus Alexander</p>
+<p class="text-xs opacity-50">Premium Plan</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase bg-red-500/10 text-red-500">Expired</span>
+</td>
+<td class="px-6 py-4 text-sm opacity-70">12 days ago</td>
+<td class="px-6 py-4 font-mono font-bold text-sm">$85.00</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:bg-primary/10 p-2 rounded-lg transition-colors">
+<span class="material-icons text-lg">mail</span>
+</button>
+<button class="text-slate-400 hover:text-white p-2 rounded-lg transition-colors">
+<span class="material-icons text-lg">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="h-10 w-10 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center font-bold text-zinc-400 text-xs">SC</div>
+<div>
+<p class="font-bold text-sm">Sarah Chen</p>
+<p class="text-xs opacity-50">Standard Plan</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase bg-yellow-500/10 text-yellow-500">Pending</span>
+</td>
+<td class="px-6 py-4 text-sm opacity-70">2 days ago</td>
+<td class="px-6 py-4 font-mono font-bold text-sm">$50.00</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:bg-primary/10 p-2 rounded-lg transition-colors">
+<span class="material-icons text-lg">mail</span>
+</button>
+<button class="text-slate-400 hover:text-white p-2 rounded-lg transition-colors">
+<span class="material-icons text-lg">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="h-10 w-10 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center font-bold text-zinc-400 text-xs">JW</div>
+<div>
+<p class="font-bold text-sm">John Wick</p>
+<p class="text-xs opacity-50">VIP Yearly</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase bg-red-500/10 text-red-500">Expired</span>
+</td>
+<td class="px-6 py-4 text-sm opacity-70">Over 30 days</td>
+<td class="px-6 py-4 font-mono font-bold text-sm">$1,200.00</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:bg-primary/10 p-2 rounded-lg transition-colors">
+<span class="material-icons text-lg">mail</span>
+</button>
+<button class="text-slate-400 hover:text-white p-2 rounded-lg transition-colors">
+<span class="material-icons text-lg">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-slate-50 dark:hover:bg-zinc-800/30 transition-colors">
+<td class="px-6 py-4">
+<div class="flex items-center space-x-3">
+<div class="h-10 w-10 rounded-full bg-zinc-800 border border-zinc-700 flex items-center justify-center font-bold text-zinc-400 text-xs">ER</div>
+<div>
+<p class="font-bold text-sm">Elena Rodriguez</p>
+<p class="text-xs opacity-50">Student Plan</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase bg-yellow-500/10 text-yellow-500">Grace Period</span>
+</td>
+<td class="px-6 py-4 text-sm opacity-70">Yesterday</td>
+<td class="px-6 py-4 font-mono font-bold text-sm">$35.00</td>
+<td class="px-6 py-4 text-right">
+<button class="text-primary hover:bg-primary/10 p-2 rounded-lg transition-colors">
+<span class="material-icons text-lg">mail</span>
+</button>
+<button class="text-slate-400 hover:text-white p-2 rounded-lg transition-colors">
+<span class="material-icons text-lg">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="space-y-6">
+<div class="bg-black text-white p-8 rounded-2xl border border-zinc-800 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent pointer-events-none"></div>
+<div class="relative z-10">
+<h2 class="text-4xl font-extrabold tracking-tighter uppercase italic leading-none mb-1">CAPITAL FIT</h2>
+<p class="text-[10px] tracking-[0.4em] uppercase font-bold opacity-70 mb-6">WELLNESS STUDIO</p>
+<div class="flex items-center justify-center">
+<div class="flex items-center">
+<div class="w-24 h-1 bg-primary relative">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 flex space-x-0.5">
+<div class="w-1 h-7 bg-primary rotate-[15deg]"></div>
+<div class="w-1.5 h-7 bg-primary rotate-[15deg]"></div>
+<div class="w-2 h-7 bg-primary rotate-[15deg]"></div>
+</div>
+</div>
+<div class="mx-2 w-8 h-8 flex items-center justify-center">
+<span class="material-icons text-primary text-3xl">bolt</span>
+</div>
+<div class="w-24 h-1 bg-primary relative">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 flex space-x-0.5">
+<div class="w-2 h-7 bg-primary rotate-[15deg]"></div>
+<div class="w-1.5 h-7 bg-primary rotate-[15deg]"></div>
+<div class="w-1 h-7 bg-primary rotate-[15deg]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-white dark:bg-surface-dark p-6 rounded-2xl border border-slate-200 dark:border-border-dark">
+<h3 class="font-bold text-lg mb-4 flex items-center">
+<span class="material-icons mr-2 text-green-500">analytics</span>
+                        Studio Health
+                    </h3>
+<div class="space-y-4">
+<div class="flex justify-between items-center text-sm">
+<span class="opacity-60">Retention Rate</span>
+<span class="font-bold">94.2%</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-zinc-800 h-1.5 rounded-full">
+<div class="bg-green-500 h-full w-[94.2%]"></div>
+</div>
+<div class="flex justify-between items-center text-sm pt-2">
+<span class="opacity-60">Capacity Utilization</span>
+<span class="font-bold">68%</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-zinc-800 h-1.5 rounded-full">
+<div class="bg-primary h-full w-[68%]"></div>
+</div>
+<div class="mt-6 pt-6 border-t border-slate-100 dark:border-zinc-800">
+<button class="w-full py-3 px-4 border border-primary text-primary hover:bg-primary/5 font-bold rounded-xl transition-colors">
+                                View Detailed Reports
+                            </button>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 border border-primary/20 p-4 rounded-xl">
+<div class="flex items-start space-x-3">
+<span class="material-icons text-primary">tips_and_updates</span>
+<div>
+<p class="text-xs font-bold uppercase tracking-wide text-primary">Pro Tip</p>
+<p class="text-sm opacity-80 mt-1 italic">Automated SMS reminders for expired memberships increased renewal rates by 15% last month.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<button class="fixed bottom-6 right-6 md:hidden h-14 w-14 rounded-full bg-primary text-black shadow-2xl flex items-center justify-center">
+<span class="material-icons text-3xl">add</span>
+</button>
+
+</body></html>

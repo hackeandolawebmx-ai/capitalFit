@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Capital Fit | Monthly Profit &amp; Loss</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Montserrat:wght@700;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#FF9500",
+              "background-light": "#F8F9FA",
+              "background-dark": "#0A0A0A",
+              "card-dark": "#141414",
+              "border-dark": "#262626",
+            },
+            fontFamily: {
+              display: ["Montserrat", "sans-serif"],
+              sans: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.75rem",
+            },
+          },
+        },
+      };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .display-font {
+            font-family: 'Montserrat', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+<aside class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-card-dark border-r border-slate-200 dark:border-border-dark z-50 hidden lg:flex flex-col">
+<div class="p-6">
+<div class="flex items-center gap-3">
+<div class="bg-primary p-1.5 rounded-lg">
+<img alt="Capital Fit Logo" class="w-8 h-8 object-contain brightness-0 invert" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCkAvuI4r5d7LdDitxgSUOiL5Olt7Uu9Rw5MEoKItCudPjkIBt2qAAkbHeKdOgoGaR_p8420CJwx2LTPh44x5dCqia_EUFNSGxz276ArRwwOgvGl2c8O9SQ9GcHbwi21-Gtznff9OAJ8cbEWtU2BlSD7jcQy0YsBbyNo80xtBElrmeSd_DNltIg5Ve5yUON5ydiSul_yrspLhsm48kwNgg2Qx0fdlZpr1X5mCb78NNPgx7el7ivqcBbFVkXsxjYPjTbKcz3RlxbQWo6"/>
+</div>
+<h1 class="text-xl font-black tracking-tighter display-font italic uppercase">Capital Fit</h1>
+</div>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 rounded-lg transition-colors group" href="#">
+<span class="material-icons-outlined text-xl">dashboard</span>
+<span class="font-medium">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 rounded-lg transition-colors group" href="#">
+<span class="material-icons-outlined text-xl">groups</span>
+<span class="font-medium">Members</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 bg-primary/10 text-primary rounded-lg transition-colors group" href="#">
+<span class="material-icons-outlined text-xl">payments</span>
+<span class="font-medium">Finances</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 rounded-lg transition-colors group" href="#">
+<span class="material-icons-outlined text-xl">schedule</span>
+<span class="font-medium">Classes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-zinc-800 rounded-lg transition-colors group" href="#">
+<span class="material-icons-outlined text-xl">inventory_2</span>
+<span class="font-medium">Shop</span>
+</a>
+</nav>
+<div class="p-4 border-t border-slate-200 dark:border-border-dark">
+<div class="flex items-center gap-3 p-2">
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-bold text-xs">JD</div>
+<div class="overflow-hidden">
+<p class="text-sm font-semibold truncate">John Doe</p>
+<p class="text-xs text-slate-500">Studio Owner</p>
+</div>
+</div>
+</div>
+</aside>
+<main class="lg:ml-64 p-4 md:p-8">
+<header class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+<div>
+<h2 class="text-3xl font-bold display-font tracking-tight">Monthly Profit &amp; Loss</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-1">Financial overview for <span class="text-primary font-semibold">October 2023</span></p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-slate-200 dark:border-border-dark rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 transition-colors">
+<span class="material-icons-outlined text-sm">calendar_month</span>
+<span>Change Month</span>
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition-opacity font-semibold">
+<span class="material-icons-outlined text-sm">download</span>
+<span>Export PDF</span>
+</button>
+</div>
+</header>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+<div class="col-span-1 md:col-span-2 p-6 bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="text-center md:text-left">
+<h3 class="text-lg font-semibold mb-2">Financial Health Status</h3>
+<p class="text-slate-500 dark:text-zinc-400 text-sm max-w-xs">Your studio is currently performing 12% better than the previous month.</p>
+<div class="mt-4 inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 text-emerald-500 rounded-full text-xs font-bold uppercase tracking-wider">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        On Track
+                    </div>
+</div>
+<div class="flex flex-col items-center">
+<div class="relative w-32 h-32 flex items-center justify-center">
+<svg class="w-full h-full -rotate-90">
+<circle class="text-slate-200 dark:text-zinc-800" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-width="8"></circle>
+<circle class="text-primary" cx="64" cy="64" fill="transparent" r="58" stroke="currentColor" stroke-dasharray="364.4" stroke-dashoffset="91.1" stroke-width="8"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-2xl font-bold">75%</span>
+<span class="text-[10px] text-slate-500 uppercase font-bold tracking-widest">Target</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-primary p-6 rounded-2xl flex flex-col justify-between text-white relative overflow-hidden shadow-xl shadow-primary/20">
+<div class="relative z-10">
+<p class="text-white/80 font-medium text-sm">Estimated Net Profit</p>
+<h3 class="text-4xl font-black mt-1">$14,280.00</h3>
+</div>
+<div class="mt-4 flex items-center gap-2 text-white/90 relative z-10">
+<span class="material-icons-outlined bg-white/20 rounded-full p-1 text-xs">trending_up</span>
+<span class="text-sm font-semibold">+8.5% from Sept</span>
+</div>
+<div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
+<div class="absolute -left-10 -top-10 w-24 h-24 bg-black/10 rounded-full blur-2xl"></div>
+</div>
+</div>
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-8">
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<h4 class="text-xl font-bold display-font uppercase tracking-tight flex items-center gap-2">
+<span class="material-icons-outlined text-emerald-500">arrow_circle_up</span>
+                        Monthly Income
+                    </h4>
+<span class="text-sm font-semibold text-emerald-500 bg-emerald-500/10 px-3 py-1 rounded-lg">Total: $42,500</span>
+</div>
+<div class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark rounded-2xl overflow-hidden shadow-sm">
+<table class="w-full">
+<thead class="bg-slate-50 dark:bg-zinc-800/50">
+<tr>
+<th class="text-left py-4 px-6 text-xs font-bold text-slate-500 uppercase tracking-widest">Revenue Stream</th>
+<th class="text-right py-4 px-6 text-xs font-bold text-slate-500 uppercase tracking-widest">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-border-dark">
+<tr>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+<span class="material-icons-outlined">card_membership</span>
+</div>
+<div>
+<p class="font-semibold">Membership Fees</p>
+<p class="text-xs text-slate-500">324 Active members</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right font-bold">$32,400.00</td>
+</tr>
+<tr>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+<span class="material-icons-outlined">fitness_center</span>
+</div>
+<div>
+<p class="font-semibold">Personal Training</p>
+<p class="text-xs text-slate-500">Private sessions</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right font-bold">$7,850.00</td>
+</tr>
+<tr>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+<span class="material-icons-outlined">shopping_bag</span>
+</div>
+<div>
+<p class="font-semibold">Supplement Shop</p>
+<p class="text-xs text-slate-500">Merchandise &amp; protein</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right font-bold">$2,250.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section class="space-y-6">
+<div class="flex items-center justify-between">
+<h4 class="text-xl font-bold display-font uppercase tracking-tight flex items-center gap-2">
+<span class="material-icons-outlined text-rose-500">arrow_circle_down</span>
+                        Fixed Costs
+                    </h4>
+<span class="text-sm font-semibold text-rose-500 bg-rose-500/10 px-3 py-1 rounded-lg">Total: $28,220</span>
+</div>
+<div class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark rounded-2xl overflow-hidden shadow-sm">
+<table class="w-full">
+<thead class="bg-slate-50 dark:bg-zinc-800/50">
+<tr>
+<th class="text-left py-4 px-6 text-xs font-bold text-slate-500 uppercase tracking-widest">Expense Category</th>
+<th class="text-right py-4 px-6 text-xs font-bold text-slate-500 uppercase tracking-widest">Amount</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 dark:divide-border-dark">
+<tr>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-500">
+<span class="material-icons-outlined">home</span>
+</div>
+<div>
+<p class="font-semibold">Studio Rent</p>
+<p class="text-xs text-slate-500">Main Facility + Tax</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right font-bold">$12,000.00</td>
+</tr>
+<tr>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-500">
+<span class="material-icons-outlined">badge</span>
+</div>
+<div>
+<p class="font-semibold">Staff Salaries</p>
+<p class="text-xs text-slate-500">8 Employees</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right font-bold">$14,500.00</td>
+</tr>
+<tr>
+<td class="py-4 px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-500">
+<span class="material-icons-outlined">bolt</span>
+</div>
+<div>
+<p class="font-semibold">Utilities</p>
+<p class="text-xs text-slate-500">Electricity &amp; Water</p>
+</div>
+</div>
+</td>
+<td class="py-4 px-6 text-right font-bold">$1,720.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark p-6 rounded-2xl">
+<div class="flex items-center justify-between mb-4">
+<h5 class="font-bold text-slate-500 uppercase text-xs tracking-widest">Upcoming Renewals</h5>
+<span class="material-icons-outlined text-slate-400">more_horiz</span>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm">CRM Software Subscription</span>
+<span class="font-bold text-sm">$199.00</span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm">Liability Insurance</span>
+<span class="font-bold text-sm">$850.00</span>
+</div>
+<div class="w-full bg-slate-100 dark:bg-zinc-800 rounded-full h-1 mt-4">
+<div class="bg-primary h-1 rounded-full" style="width: 45%"></div>
+</div>
+<p class="text-[10px] text-slate-500">Total estimated monthly software/legal spend: $1,049</p>
+</div>
+</div>
+<div class="lg:col-span-2 bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark p-6 rounded-2xl">
+<div class="flex items-center justify-between mb-6">
+<div>
+<h5 class="font-bold text-slate-500 uppercase text-xs tracking-widest">Monthly Trend</h5>
+<p class="text-sm font-semibold mt-1">Net Profit History</p>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center gap-1">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-[10px] text-slate-500 uppercase font-bold">Current</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="w-3 h-3 rounded-full bg-slate-200 dark:bg-zinc-700"></span>
+<span class="text-[10px] text-slate-500 uppercase font-bold">Last Year</span>
+</div>
+</div>
+</div>
+<div class="flex items-end justify-between h-32 gap-2">
+<div class="flex-1 bg-slate-100 dark:bg-zinc-800/50 rounded-t-lg relative group h-[40%] hover:bg-primary/20 transition-all">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all" style="height: 60%"></div>
+</div>
+<div class="flex-1 bg-slate-100 dark:bg-zinc-800/50 rounded-t-lg relative group h-[40%] hover:bg-primary/20 transition-all">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all" style="height: 45%"></div>
+</div>
+<div class="flex-1 bg-slate-100 dark:bg-zinc-800/50 rounded-t-lg relative group h-[40%] hover:bg-primary/20 transition-all">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all" style="height: 75%"></div>
+</div>
+<div class="flex-1 bg-slate-100 dark:bg-zinc-800/50 rounded-t-lg relative group h-[40%] hover:bg-primary/20 transition-all">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all" style="height: 65%"></div>
+</div>
+<div class="flex-1 bg-slate-100 dark:bg-zinc-800/50 rounded-t-lg relative group h-[40%] hover:bg-primary/20 transition-all">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all" style="height: 90%"></div>
+</div>
+<div class="flex-1 bg-slate-100 dark:bg-zinc-800/50 rounded-t-lg relative group h-[40%] hover:bg-primary/20 transition-all">
+<div class="absolute bottom-0 w-full bg-primary rounded-t-lg transition-all" style="height: 85%"></div>
+</div>
+</div>
+<div class="flex justify-between mt-4">
+<span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">May</span>
+<span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Jun</span>
+<span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Jul</span>
+<span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Aug</span>
+<span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Sep</span>
+<span class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Oct</span>
+</div>
+</div>
+</div>
+</main>
+<div class="fixed bottom-0 right-0 p-12 opacity-5 pointer-events-none select-none overflow-hidden hidden xl:block">
+<img alt="Decorative Logo" class="w-96 grayscale invert dark:invert-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8QC-C_PIk1eGO6RKOjzw40DozusIi4FTEfUdkx7ApAIWylyBHtybUe7Z_EA0B0wyLDvLIrs1x6s_mZ_BmHelvO3RmKdknwZuHD029HXxHIaodXwO4ycWUizbbzP8Q3Y7ge0X7MTlBldO4byScfQvUDtQH2sFI1imT2MQ7i2-hMUEsa4GUddIrpIMAj8iKJ2YpFiVbHOsQpZp5O6_sIlKR1c1wIvj3E5iUcbRo68Hl5RBqVnOkNRwG92O9R1WfLKL_KXxsGkwKiygK"/>
+</div>
+
+</body></html>

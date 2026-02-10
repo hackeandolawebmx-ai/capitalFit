@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Client Membership Status | Capital Fit</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&amp;family=Outfit:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#F59E0B", // Orange from the logo
+                        "background-light": "#F9FAFB",
+                        "background-dark": "#0A0A0A",
+                        "card-dark": "#171717",
+                        "border-dark": "#262626",
+                    },
+                    fontFamily: {
+                        display: ["Outfit", "sans-serif"],
+                        sans: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.75rem",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .display-font {
+            font-family: 'Outfit', sans-serif;
+        }
+        .glow-orange {
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-300">
+<nav class="border-b border-slate-200 dark:border-border-dark bg-white/50 dark:bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex justify-between items-center h-20">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 bg-primary rounded flex items-center justify-center">
+<span class="material-icons-outlined text-black font-bold">bolt</span>
+</div>
+<div>
+<h1 class="text-xl font-extrabold tracking-tight display-font leading-none">CAPITAL FIT</h1>
+<p class="text-[10px] tracking-[0.2em] uppercase text-slate-500 dark:text-slate-400">Wellness Studio</p>
+</div>
+</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Dashboard</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="#">Workouts</a>
+<a class="text-sm font-medium text-primary" href="#">Membership</a>
+<div class="flex items-center space-x-4 ml-4 pl-4 border-l border-slate-200 dark:border-border-dark">
+<span class="material-icons-outlined text-slate-400 cursor-pointer hover:text-white transition-colors">notifications</span>
+<div class="w-8 h-8 rounded-full bg-slate-800 border border-border-dark overflow-hidden">
+<img alt="User Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOAY_nZXa-9BPfQCejraFaDBDEAybiwKO71HkqIq1U-tI7K0ScG4bcgq66wWGI5yuNcnhnQ0kI4SEjVDAdb4RVK65E518yWIUq-pVQyEkIJcwlyYzfcJF6KPhII3mFK6BEOO96dfbwertZpmOfpSyZw6B0-eXsFRYYFuq_-Ud0najPcgGTvQiNy1n3-Zhxc8IpOPJi59sCopTp60-SZHmT--zwC--7EnHt-1JRZ2YxqJBY8jTDef_mWRT0pTewYzaRdHq2ATup3iqn"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+<main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+<div class="mb-8">
+<h2 class="text-3xl font-bold display-font">Membership Status</h2>
+<p class="text-slate-500 dark:text-slate-400 mt-2">Manage your subscription and billing cycles.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<div class="lg:col-span-8">
+<div class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark p-8 rounded-2xl relative overflow-hidden">
+<div class="absolute top-0 right-0 px-6 py-2 bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 text-xs font-bold uppercase tracking-widest rounded-bl-xl">
+                        Expiring Soon
+                    </div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+<div class="space-y-6">
+<div>
+<label class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2 block">Current Plan</label>
+<h3 class="text-4xl font-extrabold display-font flex items-center gap-3">
+                                    ELITE PERFORMANCE
+                                    <span class="material-icons-outlined text-primary text-3xl">verified</span>
+</h3>
+</div>
+<div class="grid grid-cols-2 gap-8">
+<div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Expiration Date</p>
+<p class="text-xl font-bold mt-1">October 24, 2024</p>
+</div>
+<div>
+<p class="text-sm text-slate-500 dark:text-slate-400">Time Remaining</p>
+<p class="text-xl font-bold mt-1 text-amber-500">12 Days Left</p>
+</div>
+</div>
+<div class="pt-4 flex flex-col sm:flex-row gap-4">
+<button class="bg-primary hover:bg-amber-500 text-black font-bold px-8 py-4 rounded-xl transition-all flex items-center justify-center gap-2 glow-orange">
+<span class="material-icons-outlined">refresh</span>
+                                    RENEW NOW
+                                </button>
+<button class="border border-slate-300 dark:border-border-dark hover:bg-slate-50 dark:hover:bg-white/5 font-semibold px-8 py-4 rounded-xl transition-all">
+                                    View Invoices
+                                </button>
+</div>
+</div>
+<div class="flex-shrink-0 flex items-center justify-center">
+<div class="relative w-48 h-48">
+<svg class="w-full h-full transform -rotate-90">
+<circle class="text-slate-100 dark:text-neutral-800" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-width="12"></circle>
+<circle class="text-primary" cx="96" cy="96" fill="transparent" r="88" stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="138" stroke-linecap="round" stroke-width="12"></circle>
+</svg>
+<div class="absolute inset-0 flex flex-col items-center justify-center">
+<span class="text-3xl font-extrabold display-font">75%</span>
+<span class="text-[10px] uppercase font-bold text-slate-500">Cycle Progress</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark p-6 rounded-2xl">
+<span class="material-icons-outlined text-primary mb-3">fitness_center</span>
+<h4 class="font-bold mb-1">Unlimited Gym Access</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">24/7 access to all studio equipment and facilities.</p>
+</div>
+<div class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark p-6 rounded-2xl">
+<span class="material-icons-outlined text-primary mb-3">groups</span>
+<h4 class="font-bold mb-1">Group Classes</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">8 monthly credits for HIIT, Yoga, and Strength classes.</p>
+</div>
+<div class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark p-6 rounded-2xl">
+<span class="material-icons-outlined text-primary mb-3">monitor_heart</span>
+<h4 class="font-bold mb-1">Wellness Tracking</h4>
+<p class="text-sm text-slate-500 dark:text-slate-400">Monthly biometric analysis and progress tracking.</p>
+</div>
+</div>
+</div>
+<div class="lg:col-span-4 space-y-8">
+<div class="bg-white dark:bg-card-dark border border-slate-200 dark:border-border-dark p-6 rounded-2xl">
+<h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+<span class="material-icons-outlined text-primary">credit_card</span>
+                        Payment Method
+                    </h3>
+<div class="flex items-center justify-between p-4 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-200 dark:border-border-dark">
+<div class="flex items-center gap-3">
+<div class="w-10 h-6 bg-slate-800 rounded flex items-center justify-center">
+<span class="text-[8px] font-bold text-white">VISA</span>
+</div>
+<div>
+<p class="text-sm font-bold">•••• 4242</p>
+<p class="text-xs text-slate-500">Expires 12/26</p>
+</div>
+</div>
+<button class="text-xs font-bold text-primary hover:underline">Edit</button>
+</div>
+<div class="mt-4 flex items-center justify-between text-sm">
+<span class="text-slate-500 dark:text-slate-400">Auto-renewal</span>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-slate-200 dark:bg-neutral-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+</div>
+<div class="bg-primary/10 dark:bg-primary/5 border border-primary/20 p-6 rounded-2xl">
+<h3 class="font-bold text-lg mb-2 flex items-center gap-2 text-primary">
+<span class="material-icons-outlined">loyalty</span>
+                        Refer a Friend
+                    </h3>
+<p class="text-sm text-slate-600 dark:text-slate-300 mb-4">Give 20% off and get 1 month free when a friend joins Capital Fit.</p>
+<button class="w-full bg-primary text-black font-bold py-3 rounded-xl hover:bg-amber-500 transition-colors">
+                        Get Referral Link
+                    </button>
+</div>
+<div class="flex items-center justify-center opacity-50">
+<img alt="Capital Fit Logo Accent" class="h-20 grayscale invert opacity-20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2cMjXr5kvWcx6smucEg7lc597BtMwnM0zAtquI7u513_EtWdDHZFMOjN68hawSazvwxi8BRwu_R9403xGW_axf8zNRxXsIRhdv-9kVBN4wBO4GHGVxMVHgAInd8-5DL69iiswmqzgexLmmgUbDawgMcpvtgNuuidFE2xWjCsb1C5USC5q6SFGCk_cBOthqHy_Yiy_RQkL8r_7zb9AZSqKxWfEz3viHEm4OHVRjPn4cPG5HCGJwdJAh-aNatZ7pZNSmdXWNPsjQuW4"/>
+</div>
+</div>
+</div>
+</main>
+<footer class="mt-20 border-t border-slate-200 dark:border-border-dark py-12">
+<div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center text-slate-500 dark:text-slate-400 text-sm">
+<div class="flex items-center gap-2 mb-4 md:mb-0">
+<span class="font-bold display-font text-slate-900 dark:text-white">CAPITAL FIT</span>
+<span>© 2024 Wellness Studio. All rights reserved.</span>
+</div>
+<div class="flex space-x-6">
+<a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-primary transition-colors" href="#">Contact Support</a>
+</div>
+</div>
+</footer>
+
+</body></html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Renewal Options - Capital Fit</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#f97316", // Vibrant orange from the logo
+                        "background-light": "#f8fafc",
+                        "background-dark": "#0a0a0a",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "12px",
+                    },
+                },
+            },
+        };
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .selected-ring {
+            box-shadow: 0 0 0 2px #f97316;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center p-6">
+<header class="mb-12">
+<img alt="Capital Fit Wellness Studio Logo" class="h-24 md:h-32 object-contain mx-auto" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2cKyWtR81W9kLBqVVj4aeQ4ATiN7UX1jcG5lg4U2G2l8WjqOoFxF_VyHXiniFfHv44YOCMJ0vtfX2pDzT9wradS2crla98JXAVcFXIEJv9L9tizpAatyHYlKCJZLF5mKfJXfFjXSbwt7cijKDAHrQKWlQXgllnO_KWpafcchTM6Cc7f3K3GvlNyd1thBCfWXTXAugW31OCMVSZ_4WpMMDLKjyJ8jgWsZk4GM9RtRCR_w1uEAp050GSyxot8aCqh-xT8XG_ZeY7y67"/>
+</header>
+<main class="w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-zinc-800">
+<div class="p-8 md:p-12">
+<div class="mb-10 text-center">
+<h1 class="text-3xl font-extrabold tracking-tight mb-2">Renewal Options</h1>
+<p class="text-slate-500 dark:text-zinc-400">Choose your preferred method to extend your membership</p>
+</div>
+<div class="space-y-4">
+<label class="relative block cursor-pointer group">
+<input checked="" class="peer sr-only" name="renewal_method" type="radio" value="gym"/>
+<div class="flex items-center justify-between p-6 bg-white dark:bg-zinc-800/50 border-2 border-primary rounded-2xl transition-all duration-200 hover:bg-orange-50 dark:hover:bg-orange-900/10">
+<div class="flex items-center space-x-4">
+<div class="bg-primary/10 p-3 rounded-xl text-primary">
+<span class="material-symbols-outlined text-3xl">payments</span>
+</div>
+<div>
+<span class="block font-bold text-lg">Pay at Gym</span>
+<span class="text-sm text-slate-500 dark:text-zinc-400">Pay in person via cash or card terminal</span>
+</div>
+</div>
+<div class="flex flex-col items-end space-y-2">
+<span class="bg-primary text-white text-[10px] uppercase font-black px-2.5 py-1 rounded-full tracking-wider">Recommended</span>
+<div class="w-6 h-6 border-2 border-primary rounded-full flex items-center justify-center">
+<div class="w-3 h-3 bg-primary rounded-full"></div>
+</div>
+</div>
+</div>
+</label>
+<label class="relative block cursor-pointer group">
+<input class="peer sr-only" name="renewal_method" type="radio" value="bank"/>
+<div class="flex items-center justify-between p-6 bg-white dark:bg-zinc-800/50 border-2 border-slate-200 dark:border-zinc-700 rounded-2xl transition-all duration-200 hover:border-primary/50 peer-checked:border-primary">
+<div class="flex items-center space-x-4">
+<div class="bg-slate-100 dark:bg-zinc-700 p-3 rounded-xl text-slate-600 dark:text-zinc-300">
+<span class="material-symbols-outlined text-3xl">account_balance</span>
+</div>
+<div>
+<span class="block font-bold text-lg">Bank Transfer</span>
+<span class="text-sm text-slate-500 dark:text-zinc-400">Direct deposit to our business account</span>
+</div>
+</div>
+<div class="w-6 h-6 border-2 border-slate-300 dark:border-zinc-600 rounded-full flex items-center justify-center peer-checked:border-primary">
+<div class="w-3 h-3 bg-primary rounded-full opacity-0 peer-checked:opacity-100 transition-opacity"></div>
+</div>
+</div>
+</label>
+<div class="relative block opacity-50 grayscale cursor-not-allowed">
+<div class="flex items-center justify-between p-6 bg-slate-50 dark:bg-zinc-900 border-2 border-dashed border-slate-200 dark:border-zinc-800 rounded-2xl">
+<div class="flex items-center space-x-4">
+<div class="bg-slate-200 dark:bg-zinc-800 p-3 rounded-xl text-slate-400">
+<span class="material-symbols-outlined text-3xl">credit_card</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="block font-bold text-lg text-slate-400">Online Payment</span>
+<span class="text-[10px] bg-slate-200 dark:bg-zinc-800 px-2 py-0.5 rounded font-bold uppercase tracking-tight">Soon</span>
+</div>
+<span class="text-sm text-slate-400">Secure payment via credit or debit card</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-slate-300">lock</span>
+</div>
+</div>
+</div>
+<div class="mt-12">
+<button class="w-full flex items-center justify-center space-x-3 bg-primary hover:bg-orange-600 text-white font-bold py-5 px-8 rounded-2xl transition-all duration-300 transform active:scale-[0.98] shadow-lg shadow-orange-500/25" type="button">
+<svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
+<path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.483 8.413-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.308 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.438 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.301-.15-1.779-.879-2.053-.979-.275-.1-.475-.149-.675.15-.199.299-.775.979-.95 1.174-.175.199-.349.225-.651.075-.301-.15-1.272-.469-2.422-1.496-.893-.798-1.495-1.784-1.67-2.083-.175-.3-.018-.463.132-.612.135-.133.301-.35.451-.525.15-.175.199-.299.3-.499.1-.2.05-.374-.025-.524-.075-.15-.675-1.626-.925-2.226-.243-.587-.489-.507-.675-.516-.174-.008-.374-.01-.574-.01s-.525.075-.799.374c-.275.299-1.049 1.024-1.049 2.497 0 1.474 1.074 2.897 1.224 3.097.15.199 2.112 3.226 5.118 4.525.715.309 1.274.494 1.708.632.717.228 1.369.196 1.885.119.575-.085 1.779-.726 2.028-1.426.25-.699.25-1.299.175-1.426-.076-.126-.276-.199-.577-.349z"></path>
+</svg>
+<span>Confirm &amp; Notify via WhatsApp</span>
+</button>
+<p class="text-center mt-4 text-xs text-slate-400 uppercase tracking-widest font-medium">Secure Payment Confirmation</p>
+</div>
+</div>
+</main>
+<footer class="mt-8 text-center text-slate-500 dark:text-zinc-600 text-sm">
+<p>© 2024 Capital Fit Wellness Studio. Powered by WellnessSaaS.</p>
+</footer>
+<script>
+        // Simple interactivity for radio cards
+        const radios = document.querySelectorAll('input[name="renewal_method"]');
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                // Remove selected border from all
+                document.querySelectorAll('label > div').forEach(div => {
+                    div.classList.remove('border-primary');
+                    div.classList.add('border-slate-200', 'dark:border-zinc-700');
+                    const indicator = div.querySelector('.w-6.h-6 div');
+                    if(indicator) indicator.classList.add('opacity-0');
+                });
+                // Add to selected
+                if(radio.checked) {
+                    const container = radio.nextElementSibling;
+                    container.classList.add('border-primary');
+                    container.classList.remove('border-slate-200', 'dark:border-zinc-700');
+                    const indicator = container.querySelector('.w-6.h-6 div');
+                    if(indicator) indicator.classList.remove('opacity-0');
+                }
+            });
+        });
+    </script>
+
+</body></html>
