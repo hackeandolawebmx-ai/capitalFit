@@ -32,7 +32,7 @@ function App() {
         </Route>
 
         {/* Catch all */}
-        <Route path="*" element={<Navigate to="/mi-membresia" replace />} />
+        <Route path="*" element={<Navigate to="/admin/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
   );
