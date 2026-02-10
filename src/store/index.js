@@ -24,7 +24,7 @@ const INITIAL_CLIENTS = [
     phone: '5512345678',
     birthDate: '1990-05-15',
     activePlanId: 'p1',
-    expirationDate: addDays(new Date(), 15).toISOString(),
+    expirationDate: addDays(new Date(), 1).toISOString(), // Upcoming (1 day)
     lastPaymentDate: new Date().toISOString()
   },
   {
@@ -33,8 +33,8 @@ const INITIAL_CLIENTS = [
     phone: '5587654321',
     birthDate: '1995-10-20',
     activePlanId: 'p1',
-    expirationDate: addDays(new Date(), 2).toISOString(), // Risk
-    lastPaymentDate: addDays(new Date(), -28).toISOString()
+    expirationDate: addDays(new Date(), -3).toISOString(), // Risk (3 days ago)
+    lastPaymentDate: addDays(new Date(), -33).toISOString()
   },
   {
     id: 'c3',
@@ -42,19 +42,8 @@ const INITIAL_CLIENTS = [
     phone: '5511223344',
     birthDate: '1988-03-10',
     activePlanId: 'p1',
-    expirationDate: addDays(new Date(), -5).toISOString(), // Risk (expired < 7 days technically is Risk in business logic? No, >7 is Expired. 1-7 is Risk?)
-    // Re-reading logic: "Membresía vencida 1–7 días -> RISK". "Membresía vencida +7 días -> EXPIRED".
-    // Wait, VENCIDA standard usually means date < today.
-    // "Cliente ACTIVO: membresía vigente".
-    // "Cliente EN RIESGO: membresía vencida 1–7 días".
-    // "Cliente VENCIDO: membresía vencida +7 días".
-    // This implies that if it expired TODAY, is it active? No, expired.
-    // So:
-    // Date >= Today -> Active
-    // Date < Today AND Date >= Today - 7 -> Risk
-    // Date < Today - 7 -> Expired
-    expirationDate: addDays(new Date(), -5).toISOString(), // Risk
-    lastPaymentDate: addDays(new Date(), -35).toISOString()
+    expirationDate: addDays(new Date(), -10).toISOString(), // Expired
+    lastPaymentDate: addDays(new Date(), -40).toISOString()
   },
   {
     id: 'c4',

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../store';
 import { Users, AlertTriangle, TrendingUp, Activity, MessageSquare, MoreVertical, Calendar } from 'lucide-react';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, differenceInDays } from 'date-fns';
 import { es } from 'date-fns/locale';
 
 const Dashboard = () => {
@@ -15,62 +15,125 @@ const Dashboard = () => {
         monthlyRevenue: 0,
         projectedRevenue: 0
     });
+    const [notifications, setNotifications] = useState([]);
     const [followUpMembers, setFollowUpMembers] = useState([]);
 
     useEffect(() => {
-        const clients = db.getClients();
-        const payments = db.getPayments();
+        try {
+            const clients = db.getClients() || [];
+            const payments = db.getPayments() || [];
+            const now = new Date();
 
-        // 1. Calculate Member Stats
-        let active = 0, risk = 0, expired = 0;
-        const riskList = [];
+            // 1. Calculate Member Stats & Notifications
+            let active = 0, risk = 0, expired = 0;
+            const notificationList = [];
 
-        clients.forEach(c => {
-            const status = db.getClientStatus(c);
-            if (status === 'active') active++;
-            else if (status === 'risk') {
-                risk++;
-                riskList.push({ ...c, status });
-            }
-            else {
-                expired++;
-                riskList.push({ ...c, status });
-            }
-        });
+            clients.forEach(c => {
+                try {
+                    const status = db.getClientStatus(c);
+                    let type = null;
 
-        // 2. Calculate Revenue
-        const now = new Date();
-        const currentMonth = now.getMonth();
-        const revenue = payments.reduce((acc, p) => {
-            const d = parseISO(p.date);
-            if (d.getMonth() === currentMonth && d.getFullYear() === now.getFullYear()) {
-                return acc + (parseFloat(p.amount) || 0);
-            }
-            return acc;
-        }, 0);
+                    if (status === 'active') {
+                        active++;
+                        // Check for UPCOMING expiration (next 3 days)
+                        if (c.expirationDate) {
+                            const expDate = parseISO(c.expirationDate);
+                            if (!isNaN(expDate)) {
+                                const daysUntil = differenceInDays(expDate, now);
+                                if (daysUntil >= 0 && daysUntil <= 3) {
+                                    type = 'upcoming';
+                                }
+                            }
+                        }
+                    }
+                    else if (status === 'risk') {
+                        risk++;
+                        type = 'risk';
+                    }
+                    else {
+                        expired++;
+                    }
 
-        setStats({
-            active,
-            risk,
-            expired,
-            totalMembers: clients.length,
-            monthlyRevenue: revenue,
-            projectedRevenue: revenue + (risk * 500) // Simple projection
-        });
+                    if (type) {
+                        notificationList.push({ ...c, type, status });
+                    }
+                } catch (err) {
+                    console.error("Error processing client:", c, err);
+                }
+            });
 
-        // 3. Set Follow Up List (Prioritize Risk, then Expired)
-        setFollowUpMembers(riskList.sort((a, b) => b.expirationDate.localeCompare(a.expirationDate)).slice(0, 5));
+            // 2. Calculate Revenue
+            const currentMonth = now.getMonth();
+            const revenue = payments.reduce((acc, p) => {
+                try {
+                    if (!p.date) return acc;
+                    const d = parseISO(p.date);
+                    if (isNaN(d)) return acc;
 
+                    if (d.getMonth() === currentMonth && d.getFullYear() === now.getFullYear()) {
+                        return acc + (parseFloat(p.amount) || 0);
+                    }
+                } catch (e) {
+                    console.error("Error processing payment:", p, e);
+                }
+                return acc;
+            }, 0);
+
+            setStats({
+                active,
+                risk,
+                expired,
+                totalMembers: clients.length,
+                monthlyRevenue: revenue,
+                projectedRevenue: revenue + (risk * 500)
+            });
+
+            // 3. Set Notifications (Prioritize Risk, then Upcoming)
+            setNotifications(notificationList.sort((a, b) => {
+                if (a.type === 'risk' && b.type !== 'risk') return -1;
+                if (a.type !== 'risk' && b.type === 'risk') return 1;
+                const dateA = a.expirationDate || '';
+                const dateB = b.expirationDate || '';
+                return dateA.localeCompare(dateB);
+            }));
+
+            // 4. Set Follow Up List
+            const riskAndExpired = clients.filter(c => ['risk', 'expired'].includes(db.getClientStatus(c)));
+            setFollowUpMembers(riskAndExpired.sort((a, b) => {
+                const dateA = a.expirationDate || '';
+                const dateB = b.expirationDate || '';
+                return dateB.localeCompare(dateA);
+            }).slice(0, 5));
+
+        } catch (error) {
+            console.error("Critical error in Dashboard useEffect:", error);
+        }
     }, []);
 
     const handleWhatsApp = (client) => {
-        const msg = encodeURIComponent(`Hola ${client.name}, tu membresía requiere atención.`);
-        window.open(`https://wa.me/521${client.phone}?text=${msg}`, '_blank');
+        let msg = '';
+        if (client.type === 'upcoming') {
+            msg = encodeURIComponent(`Hola ${client.name.split(' ')[0]}, notamos que tu membresía vence pronto (${safeDateFormat(client.expirationDate)}). ¡Renueva a tiempo para mantener tu racha!`);
+        } else if (client.type === 'risk') {
+            msg = encodeURIComponent(`Hola ${client.name.split(' ')[0]}, tu membresía venció hace unos días. ¡Te extrañamos en el entrenamiento!`);
+        } else {
+            msg = encodeURIComponent(`Hola ${client.name}, tu membresía requiere atención.`);
+        }
+        window.open(`https://wa.me/521${client.phone.replace(/\s/g, '')}?text=${msg}`, '_blank');
     };
 
     const retentionRate = stats.totalMembers > 0 ? ((stats.active / stats.totalMembers) * 100).toFixed(1) : 0;
     const capacity = 100; // Mock Max Capacity
     const capacityUtilization = Math.min(((stats.active / capacity) * 100).toFixed(0), 100);
+
+    const safeDateFormat = (dateStr) => {
+        try {
+            if (!dateStr) return '';
+            return format(parseISO(dateStr), 'dd MMM', { locale: es });
+        } catch (e) {
+            return '';
+        }
+    };
 
     return (
         <div className="dashboard-stitch">
@@ -93,6 +156,38 @@ const Dashboard = () => {
                     </div>
                 </div>
             </header>
+
+            {/* Notifications Section */}
+            {notifications.length > 0 && (
+                <div className="notifications-section">
+                    <div className="section-header-compact">
+                        <h3 className="section-title-sm">
+                            <MessageSquare size={16} className="text-accent" />
+                            Panel de Notificaciones ({notifications.length})
+                        </h3>
+                        {/* <button className="text-xs text-accent hover:underline">Enviar a todos</button> */}
+                    </div>
+                    <div className="notifications-list">
+                        {notifications.map(n => (
+                            <div key={n.id} className={`notification-item ${n.type}`}>
+                                <div className="notif-icon">
+                                    {n.type === 'upcoming' ? <Calendar size={16} /> : <AlertTriangle size={16} />}
+                                </div>
+                                <div className="notif-content">
+                                    <p className="notif-title">
+                                        {n.type === 'upcoming' ? 'Vence Pronto' : 'Recién Vencido'}
+                                        <span className="notif-date"> • {safeDateFormat(n.expirationDate)}</span>
+                                    </p>
+                                    <p className="notif-user">{n.name}</p>
+                                </div>
+                                <button className="whatsapp-btn-sm" onClick={() => handleWhatsApp(n)}>
+                                    Enviar WhatsApp
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
 
             {/* Summary Cards Row */}
             <div className="stitch-cards-grid">
@@ -345,6 +440,56 @@ const Dashboard = () => {
                 
                 .bg-accent-soft { background: rgba(243, 156, 52, 0.1); }
                 .border-accent { border: 1px solid rgba(243, 156, 52, 0.2); }
+
+                /* Notifications Panel */
+                .notifications-section {
+                    background: linear-gradient(145deg, rgba(20,20,20,0.8), rgba(10,10,10,0.9));
+                    border: 1px solid rgba(243, 156, 52, 0.3);
+                    border-radius: 16px;
+                    padding: 1.25rem;
+                    margin-bottom: 0.5rem;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                }
+                .section-header-compact { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+                .section-title-sm { font-size: 0.9rem; font-weight: 700; color: white; display: flex; align-items: center; gap: 0.5rem; margin: 0; }
+                
+                .notifications-list { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 0.5rem; }
+                .notifications-list::-webkit-scrollbar { height: 4px; }
+                .notifications-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+                
+                .notification-item {
+                    min-width: 260px;
+                    background: rgba(255,255,255,0.03);
+                    border: 1px solid rgba(255,255,255,0.05);
+                    border-radius: 12px;
+                    padding: 1rem;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    transition: transform 0.2s;
+                }
+                .notification-item:hover { transform: translateY(-2px); background: rgba(255,255,255,0.05); }
+                .notification-item.upcoming { border-left: 3px solid var(--color-success); }
+                .notification-item.risk { border-left: 3px solid var(--color-warning); }
+                
+                .notif-icon { 
+                    width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.05); 
+                    display: flex; align-items: center; justify-content: center; color: var(--color-text-muted);
+                }
+                .notification-item.upcoming .notif-icon { color: var(--color-success); background: rgba(16, 185, 129, 0.1); }
+                .notification-item.risk .notif-icon { color: var(--color-warning); background: rgba(245, 158, 11, 0.1); }
+
+                .notif-content { flex: 1; }
+                .notif-title { font-size: 0.7rem; font-weight: 700; color: var(--color-text-muted); text-transform: uppercase; margin: 0 0 0.2rem 0; }
+                .notif-date { opacity: 0.7; font-weight: 400; }
+                .notif-user { font-weight: 700; font-size: 0.9rem; margin: 0; color: white; }
+
+                .whatsapp-btn-sm {
+                    background: #25D366; color: white; border: none; padding: 0.4rem 0.8rem;
+                    border-radius: 6px; font-size: 0.7rem; font-weight: 700; cursor: pointer;
+                    white-space: nowrap;
+                }
+                .whatsapp-btn-sm:hover { background: #1fee59; }
             `}</style>
         </div>
     );
