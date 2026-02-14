@@ -154,7 +154,7 @@ const Status = () => {
                 {/* Metrics Grid */}
                 <div className="flex justify-between items-end mb-2 px-2">
                     <h3 className="text-sm font-bold opacity-70">MIS METRICAS</h3>
-                    <button onClick={() => setShowBioModal(true)} className="text-primary text-xs font-bold flex items-center gap-1">
+                    <button onClick={() => setShowBioModal(true)} className="update-btn">
                         <Activity size={14} /> ACTUALIZAR
                     </button>
                 </div>
@@ -232,11 +232,11 @@ const Status = () => {
 
             {/* Biometrics Modal */}
             {showBioModal && (
-                <div className="modal-overlay">
-                    <div className="glass-modal">
-                        <div className="modal-header">
+                <div className="bio-modal-overlay">
+                    <div className="bio-glass-modal">
+                        <div className="bio-modal-header">
                             <h2>Registrar Progreso</h2>
-                            <button className="close-btn" onClick={() => setShowBioModal(false)}><X size={20} /></button>
+                            <button className="bio-close-btn" onClick={() => setShowBioModal(false)}><X size={20} /></button>
                         </div>
                         <form onSubmit={handleSaveBio}>
                             <div className="grid grid-cols-2 gap-4">
@@ -282,9 +282,9 @@ const Status = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="modal-actions">
-                                <button type="button" className="btn-stitch-ghost" onClick={() => setShowBioModal(false)}>Cancelar</button>
-                                <button type="submit" className="btn-stitch-primary"><Save size={18} /> Guardar Registro</button>
+                            <div className="bio-modal-actions">
+                                <button type="button" className="bio-btn-ghost" onClick={() => setShowBioModal(false)}>Cancelar</button>
+                                <button type="submit" className="bio-btn-primary"><Save size={18} /> Guardar Registro</button>
                             </div>
                         </form>
                     </div>
@@ -375,31 +375,75 @@ const Status = () => {
 
                 .logout-btn {
                     margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-                    color: rgba(255,255,255,0.4); font-size: 0.9rem; width: 100%; padding: 1rem;
-                    transition: color 0.2s;
+                    color: #EF4444; font-size: 0.9rem; width: 100%; padding: 1rem;
+                    border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 12px;
+                    background: rgba(239, 68, 68, 0.05); transition: all 0.2s;
+                    cursor: pointer;
                 }
-                .logout-btn:hover { color: white; }
+                .logout-btn:hover { background: rgba(239, 68, 68, 0.1); color: #F87171; border-color: rgba(239, 68, 68, 0.4); }
 
                 .metrics-grid {
                     display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;
                 }
                 .metric-card {
-                    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+                    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
                     border-radius: 16px; padding: 1rem; display: flex; flex-direction: column;
                     align-items: center; justify-content: center; gap: 0.5rem;
                 }
                 .metric-card .icon { 
-                    width: 32px; height: 32px; background: rgba(255,255,255,0.05); 
+                    width: 32px; height: 32px; background: rgba(255,255,255,0.1); 
                     border-radius: 50%; display: flex; align-items: center; justify-content: center;
                 }
-                .metric-card .value { font-size: 1.1rem; font-weight: 800; }
-                .metric-card .label { font-size: 0.65rem; color: #888; font-weight: 600; }
+                .metric-card .value { font-size: 1.1rem; font-weight: 800; color: white; }
+                .metric-card .label { font-size: 0.65rem; color: rgba(255,255,255,0.7); font-weight: 600; text-transform: uppercase; }
+
+                .update-btn {
+                    background: transparent; border: 1px solid var(--color-primary); color: var(--color-primary);
+                    font-size: 0.75rem; font-weight: 700; padding: 0.4rem 0.8rem; border-radius: 100px;
+                    display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: all 0.2s;
+                }
+                .update-btn:hover { background: var(--color-primary); color: white; }
 
                 .referral-card {
                      background: linear-gradient(145deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
                      border-color: rgba(59, 130, 246, 0.2);
                 }
                 .referral-card .icon-box { color: #60a5fa; background: rgba(59, 130, 246, 0.1); }
+
+                /* Modal Styles */
+                /* Biometrics Modal Styles - Specific Scoping */
+                .bio-modal-overlay { 
+                    position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+                    background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+                    display: flex !important; align-items: center; justify-content: center; z-index: 9999 !important;
+                }
+                .bio-glass-modal {
+                    background: #111; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
+                    width: 90%; max-width: 500px; padding: 2rem; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+                    position: relative; z-index: 10000;
+                }
+                .bio-modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+                .bio-modal-header h2 { font-size: 1.5rem; font-weight: 800; margin: 0; }
+                
+                .bio-close-btn { background: transparent; border: none; color: white; cursor: pointer; opacity: 0.5; transition: opacity 0.2s; }
+                .bio-close-btn:hover { opacity: 1; }
+
+                .form-group-stitch { margin-bottom: 1.5rem; }
+                .form-group-stitch label { display: block; font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem; }
+                .form-group-stitch input, .form-group-stitch select { 
+                    width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+                    padding: 0.85rem; border-radius: 8px; color: white; transition: all 0.2s;
+                }
+                .form-group-stitch input:focus, .form-group-stitch select:focus { border-color: var(--color-primary); outline: none; background: rgba(255,255,255,0.05); }
+
+                .bio-modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; }
+                .bio-btn-ghost { background: transparent; border: none; color: rgba(255,255,255,0.5); font-weight: 600; cursor: pointer; padding: 0.75rem 1.5rem; }
+                .bio-btn-ghost:hover { color: white; }
+                .bio-btn-primary { 
+                    background: var(--color-primary); color: white; border: none; border-radius: 8px;
+                    padding: 0.75rem 1.5rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+                }
+                .bio-btn-primary:hover { background: #ea580c; }
             `}</style>
         </div >
     );

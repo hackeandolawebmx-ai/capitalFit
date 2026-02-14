@@ -454,6 +454,32 @@ const ClientDetail = () => {
                 .metric-box .label { font-size: 0.65rem; font-weight: 700; opacity: 0.5; }
                 .metric-box .value { font-size: 1.25rem; font-weight: 600; }
                 .metric-box .value small { font-size: 0.8rem; opacity: 0.7; font-weight: 400; margin-left: 2px; }
+
+                @media (max-width: 768px) {
+                    .client-detail-stitch { padding-bottom: 6rem; }
+                    
+                    .page-header { 
+                        display: flex; flex-direction: column; 
+                        align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem; 
+                    }
+                    
+                    .header-content h1 { font-size: 1.5rem; }
+                    
+                    .header-actions { 
+                        width: 100%; margin-left: 0; 
+                        display: flex; overflow-x: auto; padding-bottom: 0.5rem; 
+                        gap: 0.75rem; 
+                        -webkit-overflow-scrolling: touch;
+                    }
+                    
+                    .action-btn { 
+                        flex-shrink: 0; white-space: nowrap; 
+                        font-size: 0.8rem; padding: 0.6rem 1rem; 
+                    }
+                    
+                    .dashboard-grid { grid-template-columns: 1fr; gap: 1rem; }
+                    .card-stitch { padding: 1.25rem; }
+                }
             `}</style>
         </div>
     );
