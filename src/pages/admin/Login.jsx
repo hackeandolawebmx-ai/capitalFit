@@ -12,7 +12,7 @@ const Login = () => {
         e.preventDefault();
 
         // Simple mock authentication for MVP
-        if (username === 'admin' && password === 'admin123') {
+        if (username === 'capital' && password === 'capital123') {
             localStorage.setItem('admin_authenticated', 'true');
             navigate('/admin/dashboard');
         } else {

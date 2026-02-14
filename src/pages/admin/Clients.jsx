@@ -330,10 +330,51 @@ const Clients = () => {
 
                 /* Helper */
                 .input-select { width: 100%; padding: 0.85rem; background: rgba(0,0,0,0.3); border: 1px solid var(--color-border); color: white; border-radius: 8px; }
+                .modal-overlay {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background: rgba(0, 0, 0, 0.7);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                    backdrop-filter: blur(4px);
+                }
+                
+                .modal {
+                    width: 100%;
+                    max-width: 500px;
+                    padding: 2rem;
+                    background: var(--color-card);
+                    border: 1px solid var(--color-border);
+                    border-radius: 12px;
+                    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+                }
+
                 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-                .close-btn { background: none; border: none; color: var(--color-text-muted); cursor: pointer; }
+                .close-btn { background: none; border: none; color: var(--color-text-muted); cursor: pointer; transition: color 0.2s; }
                 .close-btn:hover { color: white; }
-                .modal { width: 100%; max-width: 500px; padding: 2rem; }
+                
+                /* Form Styles */
+                .form-group { margin-bottom: 1rem; }
+                .form-group label { display: block; font-size: 0.8rem; color: var(--color-text-muted); margin-bottom: 0.5rem; font-weight: 500; }
+                .form-group input, .form-group select {
+                    width: 100%;
+                    padding: 0.75rem;
+                    background: rgba(0,0,0,0.3);
+                    border: 1px solid var(--color-border);
+                    color: white;
+                    border-radius: 8px;
+                    font-size: 0.9rem;
+                    transition: border-color 0.2s;
+                }
+                .form-group input:focus, .form-group select:focus {
+                    outline: none;
+                    border-color: var(--color-primary);
+                }
             `}</style>
         </div>
     );
