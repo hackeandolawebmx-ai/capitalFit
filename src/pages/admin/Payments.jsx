@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { db } from '../../store';
 import { Plus, Search, DollarSign, Calendar, CreditCard, ChevronRight, X, User, CheckCircle } from 'lucide-react';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, differenceInDays } from 'date-fns';
 
 const Payments = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -20,6 +20,42 @@ const Payments = () => {
     });
     const [clientSearch, setClientSearch] = useState('');
     const [showClientResults, setShowClientResults] = useState(false);
+
+    // Filter Plans Logic
+    const filteredPlans = React.useMemo(() => {
+        const client = clients.find(c => c.id === formData.clientId);
+        if (!client || !client.birthDate) return plans;
+
+        const age = differenceInDays(new Date(), parseISO(client.birthDate)) / 365;
+        const isMinor = age < 18;
+        const gender = client.gender;
+
+        return plans.filter(p => {
+            // Always show special items
+            if (p.name.includes('INSCRIPCION') || p.name.includes('RE-INSCRIPCION')) {
+                return true;
+            }
+
+            // Hide VISITA if client has an active plan (established member)
+            if (client.activePlanId && p.name.includes('VISITA')) {
+                return false;
+            }
+            // Show VISITA if no active plan
+            if (p.name.includes('VISITA')) {
+                return true;
+            }
+
+            // Filter main plans
+            if (isMinor) {
+                return p.name.includes('TEENS');
+            } else {
+                if (gender === 'female') return p.name.includes('POWERFUL');
+                if (gender === 'male') return p.name.includes('MUSCLE');
+                // Default fallback if gender unspecified in adult
+                return !p.name.includes('TEENS');
+            }
+        });
+    }, [formData.clientId, clients, plans]);
 
     useEffect(() => {
         setPayments(db.getPayments().reverse());
@@ -66,10 +102,24 @@ const Payments = () => {
     const handlePlanChange = (e) => {
         const pid = e.target.value;
         const plan = plans.find(p => p.id === parseInt(pid) || p.id === pid);
+
+        let initialAmount = plan ? plan.price : '';
+
+        // Surcharge Logic for monthly plans (excludes Inscriptions/Visits)
+        if (plan && !plan.name.includes('INSCRIPCION') && !plan.name.includes('RE-INSCRIPCION') && !plan.name.includes('VISITA')) {
+            const today = new Date();
+            const dayOfMonth = today.getDate();
+
+            if (dayOfMonth > 5) {
+                // Add 10% surcharge
+                initialAmount = initialAmount * 1.10;
+            }
+        }
+
         setFormData({
             ...formData,
             planId: pid,
-            amount: plan ? plan.price : ''
+            amount: initialAmount
         });
     };
 
@@ -203,7 +253,7 @@ const Payments = () => {
                                     className="stitch-select"
                                 >
                                     <option value="">Seleccionar Plan...</option>
-                                    {plans.map(p => (
+                                    {filteredPlans.map(p => (
                                         <option key={p.id} value={p.id}>{p.name}</option>
                                     ))}
                                 </select>

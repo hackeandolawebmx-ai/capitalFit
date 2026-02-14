@@ -4,17 +4,19 @@ import { addDays, isPast, differenceInDays, parseISO, isAfter, format } from 'da
 const STORAGE_KEYS = {
   CLIENTS: 'capitalfit_clients',
   PAYMENTS: 'capitalfit_payments',
-  PLANS: 'capitalfit_plans',
+  PLANS: 'capitalfit_plans_2026',
   SETTINGS: 'capitalfit_settings',
   MONTHLY_COSTS: 'capitalfit_monthly_costs'
 };
 
 // Initial Mock Data
 const INITIAL_PLANS = [
-  { id: 'p1', name: 'Mensualidad', price: 500, durationDays: 30 },
-  { id: 'p2', name: 'Trimestre', price: 1350, durationDays: 90 },
-  { id: 'p3', name: 'Anualidad', price: 4800, durationDays: 365 },
-  { id: 'p4', name: 'Visita', price: 50, durationDays: 1 },
+  { id: 'p1', name: 'POWERFUL LADIES', price: 2400, durationDays: 30 },
+  { id: 'p2', name: 'MUSCLE MEN', price: 2600, durationDays: 30 },
+  { id: 'p3', name: 'TEENS (HASTA 18 AÑOS)', price: 1900, durationDays: 30 },
+  { id: 'p4', name: 'INSCRIPCION', price: 1100, durationDays: 0 }, // 0 implies one-time fee/no duration ext
+  { id: 'p5', name: 'RE-INSCRIPCION', price: 600, durationDays: 0 },
+  { id: 'p6', name: 'VISITA', price: 150, durationDays: 1 },
 ];
 
 const INITIAL_CLIENTS = [
@@ -23,6 +25,7 @@ const INITIAL_CLIENTS = [
     name: 'Juan Pérez',
     phone: '5512345678',
     birthDate: '1990-05-15',
+    gender: 'male',
     activePlanId: 'p1',
     expirationDate: addDays(new Date(), 1).toISOString(), // Upcoming (1 day)
     lastPaymentDate: new Date().toISOString()
@@ -32,6 +35,7 @@ const INITIAL_CLIENTS = [
     name: 'María García',
     phone: '5587654321',
     birthDate: '1995-10-20',
+    gender: 'female',
     activePlanId: 'p1',
     expirationDate: addDays(new Date(), -3).toISOString(), // Risk (3 days ago)
     lastPaymentDate: addDays(new Date(), -33).toISOString()
@@ -41,6 +45,7 @@ const INITIAL_CLIENTS = [
     name: 'Carlos López',
     phone: '5511223344',
     birthDate: '1988-03-10',
+    gender: 'male',
     activePlanId: 'p1',
     expirationDate: addDays(new Date(), -10).toISOString(), // Expired
     lastPaymentDate: addDays(new Date(), -40).toISOString()
@@ -50,6 +55,7 @@ const INITIAL_CLIENTS = [
     name: 'Ana Torres',
     phone: '5555666777',
     birthDate: '2000-01-01',
+    gender: 'female',
     activePlanId: 'p1',
     expirationDate: addDays(new Date(), -20).toISOString(), // Expired
     lastPaymentDate: addDays(new Date(), -50).toISOString()
@@ -108,6 +114,38 @@ export const db = {
       clients[index] = { ...clients[index], ...data };
       localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(clients));
     }
+  },
+
+  // --- Biometrics ---
+  addBiometric: (clientId, data) => {
+    const clients = db.getClients();
+    const clientIndex = clients.findIndex(c => c.id === clientId);
+
+    if (clientIndex !== -1) {
+      const client = clients[clientIndex];
+      if (!client.biometrics) {
+        client.biometrics = [];
+      }
+
+      const newEntry = {
+        id: uuidv4(),
+        date: new Date().toISOString(),
+        ...data
+      };
+
+      client.biometrics.push(newEntry);
+
+      // Update client with new biometrics array
+      clients[clientIndex] = client;
+      localStorage.setItem(STORAGE_KEYS.CLIENTS, JSON.stringify(clients));
+      return newEntry;
+    }
+    return null;
+  },
+
+  getBiometrics: (clientId) => {
+    const client = db.getClientById(clientId);
+    return client && client.biometrics ? client.biometrics.sort((a, b) => new Date(b.date) - new Date(a.date)) : [];
   },
 
   getClientStatus: (client) => {

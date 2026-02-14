@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../store';
-import { CheckCircle, AlertTriangle, XCircle, RefreshCw, Zap, QrCode, Calendar, ChevronRight, User, LogOut, Bell, Trophy, TrendingUp, Share2 } from 'lucide-react';
+import { CheckCircle, AlertTriangle, XCircle, RefreshCw, Zap, QrCode, Calendar, ChevronRight, User, LogOut, Bell, Trophy, TrendingUp, Share2, Activity } from 'lucide-react';
 import { format, parseISO, differenceInDays } from 'date-fns';
 import { es } from 'date-fns/locale';
 import RenewalModal from './RenewalModal';
@@ -11,7 +11,11 @@ const Status = () => {
     const [client, setClient] = useState(null);
     const [status, setStatus] = useState('loading');
     const [plan, setPlan] = useState(null);
+
     const [showRenewal, setShowRenewal] = useState(false);
+    const [biometrics, setBiometrics] = useState([]);
+    const [showBioModal, setShowBioModal] = useState(false);
+    const [bioForm, setBioForm] = useState({ weight: '', height: '', muscle: '', fat: '' });
 
     useEffect(() => {
         const id = localStorage.getItem('current_client_id');
@@ -30,11 +34,37 @@ const Status = () => {
 
             const plans = db.getPlans();
             const p = plans.find(pl => pl.id === found.activePlanId);
+
             setPlan(p);
+
+            // Fetch Biometrics
+            const bios = db.getBiometrics ? db.getBiometrics(found.id) : [];
+            setBiometrics(bios);
+            if (bios.length > 0) {
+                const latest = bios[0];
+                setBioForm({
+                    weight: latest.weight || '',
+                    height: latest.height || '',
+                    muscle: latest.muscle || '',
+                    fat: latest.fat || ''
+                });
+            }
         } else {
             navigate('/mi-membresia');
         }
     }, [navigate]);
+
+    const handleSaveBio = (e) => {
+        e.preventDefault();
+        if (!client) return;
+
+        const newBio = db.addBiometric(client.id, bioForm);
+        if (newBio) {
+            setBiometrics([newBio, ...biometrics]);
+            setShowBioModal(false);
+        }
+    };
+
 
     if (!client) return <div className="min-h-screen flex items-center justify-center bg-black text-white">Cargando...</div>;
 
@@ -57,6 +87,10 @@ const Status = () => {
                     <div className="user-info">
                         <span className="text-xs text-muted text-right block">Bienvenido,</span>
                         <span className="text-sm font-bold block">{client.name.split(' ')[0]}</span>
+                        <div className="text-[10px] text-muted text-right mt-1 flex gap-2 justify-end">
+                            <span>{client.gender === 'male' ? 'H' : client.gender === 'female' ? 'M' : ''}</span>
+                            <span>{client.birthDate ? `${differenceInDays(new Date(), parseISO(client.birthDate)) / 365 | 0} Años` : ''}</span>
+                        </div>
                     </div>
                     <div className="avatar">
                         <User size={18} />
@@ -117,27 +151,33 @@ const Status = () => {
                     </div>
                 </div>
 
-                {/* Metrics Grid (MVP Mock) */}
+                {/* Metrics Grid */}
+                <div className="flex justify-between items-end mb-2 px-2">
+                    <h3 className="text-sm font-bold opacity-70">MIS METRICAS</h3>
+                    <button onClick={() => setShowBioModal(true)} className="text-primary text-xs font-bold flex items-center gap-1">
+                        <Activity size={14} /> ACTUALIZAR
+                    </button>
+                </div>
                 <div className="metrics-grid">
                     <div className="metric-card">
-                        <div className="icon"><Calendar size={20} className="text-primary" /></div>
+                        <div className="icon"><User size={20} className="text-purple-400" /></div>
                         <div className="data">
-                            <span className="value">12</span>
-                            <span className="label">Racha Días</span>
+                            <span className="value">{biometrics.length > 0 ? biometrics[0].weight : '--'} <span className="text-xs font-normal opacity-70">kg</span></span>
+                            <span className="label">Peso</span>
                         </div>
                     </div>
                     <div className="metric-card">
                         <div className="icon"><TrendingUp size={20} className="text-blue-400" /></div>
                         <div className="data">
-                            <span className="value">8</span>
-                            <span className="label">Visitas Mes</span>
+                            <span className="value">{biometrics.length > 0 ? biometrics[0].muscle : '--'} <span className="text-xs font-normal opacity-70">%</span></span>
+                            <span className="label">Masa Muscular</span>
                         </div>
                     </div>
                     <div className="metric-card">
-                        <div className="icon"><User size={20} className="text-purple-400" /></div>
+                        <div className="icon"><Activity size={20} className="text-green-400" /></div>
                         <div className="data">
-                            <span className="value">78kg</span>
-                            <span className="label">Peso Actual</span>
+                            <span className="value">{biometrics.length > 0 ? biometrics[0].height : '--'} <span className="text-xs font-normal opacity-70">cm</span></span>
+                            <span className="label">Altura</span>
                         </div>
                     </div>
                 </div>
@@ -155,14 +195,17 @@ const Status = () => {
                         <ChevronRight className="ml-auto opacity-50" />
                     </button>
 
-                    <button className="action-card secondary">
+
+
+                    <button className="action-card secondary" onClick={() => navigate('/mi-membresia/perfil')}>
                         <div className="icon-box">
-                            <QrCode size={24} />
+                            <Activity size={24} />
                         </div>
                         <div className="text-left">
-                            <h3>Acceso QR</h3>
-                            <p>Entrada al gimnasio</p>
+                            <h3>Mi Progreso</h3>
+                            <p>Registra tus avances</p>
                         </div>
+                        <ChevronRight className="ml-auto opacity-50" />
                     </button>
 
                     <button className="action-card referral-card">
@@ -183,9 +226,70 @@ const Status = () => {
                 }}>
                     <LogOut size={16} /> Cerrar Sesión
                 </button>
-            </main>
+            </main >
 
             {showRenewal && <RenewalModal client={client} onClose={() => setShowRenewal(false)} />}
+
+            {/* Biometrics Modal */}
+            {showBioModal && (
+                <div className="modal-overlay">
+                    <div className="glass-modal">
+                        <div className="modal-header">
+                            <h2>Registrar Progreso</h2>
+                            <button className="close-btn" onClick={() => setShowBioModal(false)}><X size={20} /></button>
+                        </div>
+                        <form onSubmit={handleSaveBio}>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="form-group-stitch">
+                                    <label>PESO (KG)</label>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        value={bioForm.weight}
+                                        onChange={e => setBioForm({ ...bioForm, weight: e.target.value })}
+                                        placeholder="0.0"
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group-stitch">
+                                    <label>ALTURA (CM)</label>
+                                    <input
+                                        type="number"
+                                        value={bioForm.height}
+                                        onChange={e => setBioForm({ ...bioForm, height: e.target.value })}
+                                        placeholder="0"
+                                        required
+                                    />
+                                </div>
+                                <div className="form-group-stitch">
+                                    <label>MASA MUSCULAR (%)</label>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        value={bioForm.muscle}
+                                        onChange={e => setBioForm({ ...bioForm, muscle: e.target.value })}
+                                        placeholder="0.0"
+                                    />
+                                </div>
+                                <div className="form-group-stitch">
+                                    <label>GRASA CORPORAL (%)</label>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        value={bioForm.fat}
+                                        onChange={e => setBioForm({ ...bioForm, fat: e.target.value })}
+                                        placeholder="0.0"
+                                    />
+                                </div>
+                            </div>
+                            <div className="modal-actions">
+                                <button type="button" className="btn-stitch-ghost" onClick={() => setShowBioModal(false)}>Cancelar</button>
+                                <button type="submit" className="btn-stitch-primary"><Save size={18} /> Guardar Registro</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
 
             <style>{`
                 .status-stitch {
@@ -297,7 +401,7 @@ const Status = () => {
                 }
                 .referral-card .icon-box { color: #60a5fa; background: rgba(59, 130, 246, 0.1); }
             `}</style>
-        </div>
+        </div >
     );
 };
 

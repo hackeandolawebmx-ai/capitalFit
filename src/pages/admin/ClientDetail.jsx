@@ -13,31 +13,54 @@ const ClientDetail = () => {
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
     const [editForm, setEditForm] = useState({ name: '', phone: '', birthDate: '' });
+    const [biometrics, setBiometrics] = useState([]);
+    const [showBioModal, setShowBioModal] = useState(false);
+    const [bioForm, setBioForm] = useState({ weight: '', height: '', muscle: '', fat: '' });
 
     useEffect(() => {
         const c = db.getClients().find(client => client.id === parseInt(id) || client.id === id);
         if (c) {
             setClient(c);
-            setEditForm({ name: c.name, phone: c.phone, birthDate: c.birthDate });
+            setEditForm({ name: c.name, phone: c.phone, birthDate: c.birthDate, gender: c.gender || '' });
 
             // Mock payments if not functioning correctly or use store
             // Assuming getPayments returns all payments, filter by client
             const allPayments = db.getPayments();
             const clientPayments = allPayments.filter(p => p.clientId === c.id || p.clientId === c.id.toString()).sort((a, b) => new Date(b.date) - new Date(a.date));
             setPayments(clientPayments);
+
+            const bios = db.getBiometrics ? db.getBiometrics(c.id) : [];
+            setBiometrics(bios);
+            if (bios.length > 0) {
+                const latest = bios[0];
+                setBioForm({
+                    weight: latest.weight || '',
+                    height: latest.height || '',
+                    muscle: latest.muscle || '',
+                    fat: latest.fat || ''
+                });
+            }
         }
         setLoading(false);
     }, [id]);
 
     const handleSave = (e) => {
         e.preventDefault();
-        // Mock update - in real app would call db.updateClient
-        // For now, update local state
         const updatedClient = { ...client, ...editForm };
         setClient(updatedClient);
+        db.updateClient(client.id, editForm);
         setIsEditing(false);
-        // Note: db.updateClient would need to be implemented or we just rely on local state for demo
-        // db.updateClient(client.id, editForm); 
+    };
+
+    const handleSaveBio = (e) => {
+        e.preventDefault();
+        if (!client) return;
+
+        const newBio = db.addBiometric(client.id, bioForm);
+        if (newBio) {
+            setBiometrics([newBio, ...biometrics]);
+            setShowBioModal(false);
+        }
     };
 
     if (loading) return <div className="p-8 text-center text-muted">Cargando perfil...</div>;
@@ -103,9 +126,14 @@ const ClientDetail = () => {
                             </div>
                         </div>
                         <div className="detail-group">
-                            <label>FECHA DE NACIMIENTO</label>
                             <div className="value">
                                 {client.birthDate ? format(parseISO(client.birthDate), 'dd MMMM yyyy', { locale: es }) : 'No registrada'}
+                            </div>
+                        </div>
+                        <div className="detail-group">
+                            <label>GÉNERO</label>
+                            <div className="value capitalize">
+                                {client.gender === 'male' ? 'Masculino' : client.gender === 'female' ? 'Femenino' : 'No especificado'}
                             </div>
                         </div>
                     </div>
@@ -175,6 +203,82 @@ const ClientDetail = () => {
                 </div>
             </div>
 
+            <div className="card-stitch biometrics-card mt-6">
+                <div className="card-header flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                        <Activity className="header-icon" size={20} />
+                        <h3>Progreso y Métricas</h3>
+                    </div>
+                    <button onClick={() => setShowBioModal(true)} className="text-xs font-bold text-primary border border-primary px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-colors">
+                        + NUEVO REGISTRO
+                    </button>
+                </div>
+                <div className="metrics-row flex gap-8 padding-4 overflow-x-auto">
+                    {biometrics.length > 0 ? (
+                        <>
+                            <div className="metric-box">
+                                <span className="label">PESO ACTUAL</span>
+                                <span className="value">{biometrics[0].weight || '--'} <small>kg</small></span>
+                            </div>
+                            <div className="metric-box">
+                                <span className="label">ALTURA</span>
+                                <span className="value">{biometrics[0].height || '--'} <small>cm</small></span>
+                            </div>
+                            <div className="metric-box">
+                                <span className="label">MASA MUSCULAR</span>
+                                <span className="value">{biometrics[0].muscle || '--'} <small>%</small></span>
+                            </div>
+                            <div className="metric-box">
+                                <span className="label">GRASA CORPORAL</span>
+                                <span className="value">{biometrics[0].fat || '--'} <small>%</small></span>
+                            </div>
+                            <div className="metric-box">
+                                <span className="label">ACTUALIZADO</span>
+                                <span className="value text-xs text-muted">{format(parseISO(biometrics[0].date), 'dd MMM yyyy')}</span>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="text-muted text-sm italic py-4">No hay registros de métricas aún.</div>
+                    )}
+                </div>
+            </div>
+
+            {/* Biometrics Modal */}
+            {showBioModal && (
+                <div className="modal-overlay">
+                    <div className="glass-modal">
+                        <div className="modal-header">
+                            <h2>Registrar Progreso</h2>
+                            <button className="close-btn" onClick={() => setShowBioModal(false)}><X size={20} /></button>
+                        </div>
+                        <form onSubmit={handleSaveBio}>
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="form-group-stitch">
+                                    <label>PESO (KG)</label>
+                                    <input type="number" step="0.1" value={bioForm.weight} onChange={e => setBioForm({ ...bioForm, weight: e.target.value })} required />
+                                </div>
+                                <div className="form-group-stitch">
+                                    <label>ALTURA (CM)</label>
+                                    <input type="number" value={bioForm.height} onChange={e => setBioForm({ ...bioForm, height: e.target.value })} required />
+                                </div>
+                                <div className="form-group-stitch">
+                                    <label>MASA MUSCULAR (%)</label>
+                                    <input type="number" step="0.1" value={bioForm.muscle} onChange={e => setBioForm({ ...bioForm, muscle: e.target.value })} />
+                                </div>
+                                <div className="form-group-stitch">
+                                    <label>GRASA CORPORAL (%)</label>
+                                    <input type="number" step="0.1" value={bioForm.fat} onChange={e => setBioForm({ ...bioForm, fat: e.target.value })} />
+                                </div>
+                            </div>
+                            <div className="modal-actions">
+                                <button type="button" className="btn-stitch-ghost" onClick={() => setShowBioModal(false)}>Cancelar</button>
+                                <button type="submit" className="btn-stitch-primary"><Save size={18} /> Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
             {/* Edit Modal */}
             {isEditing && (
                 <div className="modal-overlay">
@@ -210,6 +314,18 @@ const ClientDetail = () => {
                                     onChange={e => setEditForm({ ...editForm, birthDate: e.target.value })}
                                     required
                                 />
+                            </div>
+                            <div className="form-group-stitch">
+                                <label>GÉNERO</label>
+                                <select
+                                    value={editForm.gender}
+                                    onChange={e => setEditForm({ ...editForm, gender: e.target.value })}
+                                    required
+                                >
+                                    <option value="">Seleccionar...</option>
+                                    <option value="female">Femenino</option>
+                                    <option value="male">Masculino</option>
+                                </select>
                             </div>
                             <div className="modal-actions">
                                 <button type="button" className="btn-stitch-ghost" onClick={() => setIsEditing(false)}>Cancelar</button>
@@ -316,11 +432,11 @@ const ClientDetail = () => {
 
                 .form-group-stitch { margin-bottom: 1.5rem; }
                 .form-group-stitch label { display: block; font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); margin-bottom: 0.5rem; }
-                .form-group-stitch input { 
+                .form-group-stitch input, .form-group-stitch select { 
                     width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--color-border);
                     padding: 0.85rem; border-radius: 8px; color: white; transition: all 0.2s;
                 }
-                .form-group-stitch input:focus { border-color: var(--color-primary); outline: none; background: rgba(255,255,255,0.05); }
+                .form-group-stitch input:focus, .form-group-stitch select:focus { border-color: var(--color-primary); outline: none; background: rgba(255,255,255,0.05); }
 
                 .modal-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem; }
                 .btn-stitch-ghost { background: transparent; border: none; color: var(--color-text-muted); font-weight: 600; cursor: pointer; padding: 0.75rem 1.5rem; }
@@ -330,6 +446,14 @@ const ClientDetail = () => {
                     padding: 0.75rem 1.5rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
                 }
                 .btn-stitch-primary:hover { background: #ea580c; }
+                
+                /* Fix for select dropdown background */
+                .form-group-stitch select option { background: #111; color: white; }
+
+                .metric-box { display: flex; flex-direction: column; gap: 0.25rem; }
+                .metric-box .label { font-size: 0.65rem; font-weight: 700; opacity: 0.5; }
+                .metric-box .value { font-size: 1.25rem; font-weight: 600; }
+                .metric-box .value small { font-size: 0.8rem; opacity: 0.7; font-weight: 400; margin-left: 2px; }
             `}</style>
         </div>
     );

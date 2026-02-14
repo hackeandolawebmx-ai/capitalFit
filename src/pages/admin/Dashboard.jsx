@@ -192,7 +192,7 @@ const Dashboard = () => {
             {/* Summary Cards Row */}
             <div className="stitch-cards-grid">
                 {/* Active Members Card */}
-                <div className="stitch-card">
+                <div className="stitch-card cursor-pointer" onClick={() => navigate('/admin/clientes?status=active')}>
                     <div className="card-top">
                         <div className="icon-wrapper bg-blue-soft">
                             <Users size={20} className="text-blue" />
@@ -207,7 +207,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* At Risk Card */}
-                <div className="stitch-card">
+                <div className="stitch-card cursor-pointer" onClick={() => navigate('/admin/clientes?status=risk')}>
                     <div className="card-top">
                         <div className="icon-wrapper bg-yellow-soft">
                             <AlertTriangle size={20} className="text-yellow" />
@@ -222,7 +222,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* Expired / Churn Card */}
-                <div className="stitch-card">
+                <div className="stitch-card cursor-pointer" onClick={() => navigate('/admin/clientes?status=expired')}>
                     <div className="card-top">
                         <div className="icon-wrapper bg-red-soft">
                             <Activity size={20} className="text-red" />
@@ -378,6 +378,7 @@ const Dashboard = () => {
                 .stitch-cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
                 .stitch-card { background: var(--color-card); border: 1px solid var(--color-border); border-radius: 16px; padding: 1.5rem; transition: transform 0.2s; }
                 .stitch-card:hover { transform: translateY(-2px); border-color: var(--color-border-glow); }
+                .cursor-pointer { cursor: pointer; }
                 .card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
                 .icon-wrapper { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
                 .badge { padding: 0.25rem 0.6rem; border-radius: 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }

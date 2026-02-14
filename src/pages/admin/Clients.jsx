@@ -18,10 +18,39 @@ const Clients = () => {
         name: '',
         phone: '',
         birthDate: '',
+        gender: '',
         planId: '',
         paymentMethod: 'cash'
     });
     const [plans, setPlans] = useState([]);
+
+    useEffect(() => {
+        if (newClient.birthDate) {
+            const birth = parseISO(newClient.birthDate);
+            const age = differenceInDays(new Date(), birth) / 365;
+
+            let suggestedPlanId = '';
+
+            if (age < 18) {
+                // Teens
+                const teensPlan = plans.find(p => p.name.includes('TEENS'));
+                if (teensPlan) suggestedPlanId = teensPlan.id;
+            } else {
+                // Adults
+                if (newClient.gender === 'female') {
+                    const ladiesPlan = plans.find(p => p.name.includes('POWERFUL'));
+                    if (ladiesPlan) suggestedPlanId = ladiesPlan.id;
+                } else if (newClient.gender === 'male') {
+                    const menPlan = plans.find(p => p.name.includes('MUSCLE'));
+                    if (menPlan) suggestedPlanId = menPlan.id;
+                }
+            }
+
+            if (suggestedPlanId) {
+                setNewClient(prev => ({ ...prev, planId: suggestedPlanId }));
+            }
+        }
+    }, [newClient.birthDate, newClient.gender, plans]);
 
     useEffect(() => {
         const allClients = db.getClients();
@@ -45,6 +74,7 @@ const Clients = () => {
             name: newClient.name,
             phone: newClient.phone,
             birthDate: newClient.birthDate,
+            gender: newClient.gender,
             activePlanId: '',
             expirationDate: new Date().toISOString(),
             lastPaymentDate: null
@@ -62,7 +92,7 @@ const Clients = () => {
             }
         }
         setShowModal(false);
-        setNewClient({ name: '', phone: '', birthDate: '', planId: '', paymentMethod: 'cash' });
+        setNewClient({ name: '', phone: '', birthDate: '', gender: '', planId: '', paymentMethod: 'cash' });
         setClients(db.getClients()); // Refresh list
     };
 
@@ -250,6 +280,14 @@ const Clients = () => {
                             <div className="form-group">
                                 <label>Fecha de Nacimiento</label>
                                 <input required type="date" value={newClient.birthDate} onChange={e => setNewClient({ ...newClient, birthDate: e.target.value })} />
+                            </div>
+                            <div className="form-group">
+                                <label>Género</label>
+                                <select required value={newClient.gender} onChange={e => setNewClient({ ...newClient, gender: e.target.value })}>
+                                    <option value="">Seleccionar...</option>
+                                    <option value="female">Femenino</option>
+                                    <option value="male">Masculino</option>
+                                </select>
                             </div>
                             <hr className="my-4 border-border" />
                             <div className="form-group">
